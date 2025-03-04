@@ -1,6 +1,6 @@
 API 명세서
 
-1. 로그인 시도
+1. 로그인 시도 (MemberController)
 	POST "/login"
 	Request
 		{
@@ -15,7 +15,7 @@ API 명세서
 			{ "message" : "로그인에 실패하였습니다."}
 팀 생성
 
-1. 유저 목록 조회
+1. 유저 목록 조회 (MemberController)
 	(현재 팀이 없는 유저들의 목록 조회)
 	Request (Get) "members"
 		x
@@ -32,7 +32,7 @@ API 명세서
 		실패
 			40x: 실패
 			{ "message" : "No content"}
-2. 팀 생성
+2. 팀 생성 (TeamController)
 	(4명을 모아서 팀 생성)
 	Request (Post) "teams"
 		"data": {
@@ -48,7 +48,7 @@ API 명세서
 			40x
 			{"message" : "이미 팀이 있는 멤버를 포함합니다."}
 			{"message" : "인원수가 맞지 않습니다 "} (2명만 보낼때 등등..)
-3. 매칭 안된 팀 목록 조회
+3. 매칭 안된 팀 목록 조회 (TeamController)
 	(매칭이 아직 안 된 팀의 목록을 필터링하게 조회)
 	Request (Get) "teams"
 		x
@@ -80,7 +80,7 @@ API 명세서
 		실패		
 			40x
 			{"message" : "매칭이 되지 않은 팀이 없습니다"}
-4. 게스팅 신청
+4. 게스팅 신청 (RegistController)
 	Request (Post) "/guestings"
 		{"teamId" : 1}
 	Response
@@ -90,7 +90,7 @@ API 명세서
 			40x
 			{"message" : "이미 매칭이 완료된 팀입니다."}
 			{"message" : "존재하지 않는 팀입니다."}
-5. 내가 받은 신청 현황 조회
+5. 내가 받은 신청 현황 조회 (RegistController)
 	Request (Get) "/receivedRegists"
 		x
 	Response
@@ -128,7 +128,7 @@ API 명세서
 				}
 
 		}
-5.5 내가 보낸 신청 현황 조회
+5.5 내가 보낸 신청 현황 조회 (RegistController)
 	Request (Get) "/sentRegists"
 		x
 	Response
@@ -166,7 +166,7 @@ API 명세서
 				}
 
 		}
-6. 받은 신청 수락
+6. 받은 신청 수락(RegistController)
 	Request (Put) "/regists/accept"
 		{
 			"registId" : 1
@@ -178,7 +178,7 @@ API 명세서
 			40x
 			{"message" : "이미 매칭이 완료된 팀입니다."}
 			{"message" : "존재하지 않는 팀입니다."}
-7. 받은 신청 거절
+7. 받은 신청 거절 (RegistController)
 	Request (Put) "/regists/decline"
 		{
 			"registId" : 1
@@ -189,7 +189,7 @@ API 명세서
 		실패		
 			40x
 			{"message" : "존재하지 않는 팀입니다."}
-8. 내 매칭 조회
+8. 내 매칭 조회 (RegistController)
 	Request (Get) "/myMatchings"
 	Response
 		{
@@ -232,7 +232,7 @@ API 명세서
 		실패		
 			40x
 			{"message" : "성사된 매칭이 없습니다"}
-9. 마이페이지 조회
+9. 마이페이지 조회 (MemberController)
 	Request 
 		x
 	response
