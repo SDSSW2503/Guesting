@@ -1,6 +1,7 @@
 package com.samsung.guesting.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -40,6 +41,16 @@ public class MemberService {
 		List<Member> sameTeamMemberList = memberRepository.getMembersByTeamId(member.getTeam().getTeamId())
 				.stream().filter(m -> !memberId.equals(m.getMemberId())).toList();
 		return new MemberRes(member, sameTeamMemberList);
+	}
+	
+	//이도건 추가, 0304
+	//get List of members without a team
+	public List<MemberRes> getTeamlessMembers(Integer myId){
+		return memberRepository.getMembersByTeamIsNull()
+				.stream()
+				.filter(member -> !member.getMemberId().equals(myId))
+				.map(MemberRes::new)
+				.collect(Collectors.toList());
 	}
 
 }

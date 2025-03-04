@@ -4,7 +4,7 @@ API 명세서
 	POST "/login"
 	Request
 		{
-		 "id" : "abc123", 
+		 "id" : 1, 
 		 "password" : "abc123"
 		}
 	Response
@@ -233,7 +233,7 @@ API 명세서
 			40x
 			{"message" : "성사된 매칭이 없습니다"}
 9. 마이페이지 조회 (MemberController)
-	Request 
+	Request (Get) "mypage"
 		x
 	response
 		{
