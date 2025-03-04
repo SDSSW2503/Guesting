@@ -87,10 +87,13 @@ public class RegistService {
 				.orElseThrow(()->new RuntimeException("찾을 수 없는 요청입니다."));
 		//거절로 바꾸기
 		receivedRegist.setStatus(1);
-	
-
 	}
 	 
 	 
 	 //5. 성사된 매칭을 조회한다.
+	public Regist getMyMatching (Integer curTeamId) throws RuntimeException{
+		//내 팀 아이디를 이용해 성사된 매칭을 조회한다.
+		Regist regist = registRepository.getMatchedTeam(curTeamId).orElseThrow();
+		return regist;
+	}
 }

@@ -13,9 +13,6 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @ToString
 public class RegistRes {
 	private Integer registId;
