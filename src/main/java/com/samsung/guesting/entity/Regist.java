@@ -45,4 +45,12 @@ public class Regist {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "house_id")
     private House house;
+
+	@Override
+	public String toString() {
+		return "Regist [registId=" + registId + ", sendTeam=" + sendTeam.getTeamId() + ", receiveTeam=" + receiveTeam.getTeamId() + ", regDate="
+				+ regDate + ", status=" + status + ", house=" + house.getHouseId() + "]";
+	}
+    
+    
 }

@@ -21,8 +21,7 @@ public interface RegistRepository extends JpaRepository<Regist, Integer>{
 	
 	//매칭된 팀 조회
 	//0 : accept 1 : decline 2 : pending
-	@Query(value = "select r from Regist r where r.status = 0 and (r.sendTeam.teamId =: teamId"
-			+ " or receiveTeam.teamId =: teamId)")
+	@Query(value = "select r from Regist r where r.status = 0 and (r.sendTeam.teamId = :teamId or receiveTeam.teamId = :teamId)")
 	Optional<Regist> getMatchedTeam(Integer teamId);
 
 }
