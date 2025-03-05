@@ -30,9 +30,9 @@ INSERT INTO `sds`.`member` (`gender`, `intro`, `name`, `password`, `team_id`) VA
 -- Insert sample data into `regist`
 INSERT INTO `sds`.`regist` (`reg_date`, `status`, `house_id`, `receive_team_id`, `send_team_id`) VALUES
 (NOW(), 1, 2, 2, 1),
-(NOW(), 1, 2, 4, 2),
-(NOW(), 1, 2, 1, 4),
-(NOW(), 2, 2, 1, 5);
+(NOW(), 1, 2, 1, 2),
+(NOW(), 1, 2, 2, 1),
+(NOW(), 2, 2, 1, 2);
 
 
 
