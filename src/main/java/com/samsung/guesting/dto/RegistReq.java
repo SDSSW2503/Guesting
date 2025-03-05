@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import com.samsung.guesting.entity.House;
 import com.samsung.guesting.entity.Regist;
 import com.samsung.guesting.entity.Team;
+import com.samsung.guesting.entity.staticField.Status;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,9 +28,9 @@ public class RegistReq {
 		return Regist.builder()
 				.sendTeam(Team.builder().teamId(sendTeamId).build())
 				.receiveTeam(Team.builder().teamId(receiveTeamId).build())
-				.status(2)
 				.regDate(LocalDateTime.now())
 				.house(house)
+				.status(Status.PENDING)
 				.build();
 	}
 }

@@ -2,7 +2,11 @@ package com.samsung.guesting.entity;
 
 import java.time.LocalDateTime;
 
+import com.samsung.guesting.entity.staticField.Status;
+import com.samsung.guesting.entity.staticField.StatusConverter;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -40,7 +44,8 @@ public class Regist {
     private LocalDateTime regDate;
 
     @Column(name = "status", nullable = false)
-    private Integer status;
+    @Convert(converter = StatusConverter.class)
+    private Status status;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "house_id")

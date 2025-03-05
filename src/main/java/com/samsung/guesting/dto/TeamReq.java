@@ -16,11 +16,14 @@ import lombok.ToString;
 @ToString
 public class TeamReq {
 	
-	private String name;
+	private String teamName;
+	private Integer memberId1;
+	private Integer memberId2;
+	private Integer memberId3;
 	
 	public Team toTeam(TeamReq teamReq) {
 		return Team.builder()
-				   .name(teamReq.getName())
+				   .name(teamReq.getTeamName())
 				   .build();
 	}
 }

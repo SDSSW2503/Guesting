@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.samsung.guesting.dto.MemberReq;
 import com.samsung.guesting.dto.MemberRes;
 import com.samsung.guesting.service.MemberService;
 import com.samsung.guesting.service.RegistService;
@@ -23,7 +24,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberController {
 	private final MemberService memberService;
-	private final RegistService registService;
+	
+	@PostMapping("/signUp")
+	public ResponseEntity<?> signUp(@RequestBody MemberReq memberReq) {
+		MemberRes memberRes = memberService.signUp(memberReq);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(memberRes);
+	}
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody Integer id, String password ){

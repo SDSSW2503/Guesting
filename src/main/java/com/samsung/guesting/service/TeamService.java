@@ -27,9 +27,26 @@ public class TeamService {
 	
 	//1. 팀 생성
 	@Transactional
-	public TeamRes addTeam(TeamReq teamReq) {
-		Team team = teamReq.toTeam(teamReq);
-		teamRepository.save(team);
+	public TeamRes addTeam(TeamReq teamReq, Integer leaderId) {
+		List<Integer> teamMember = List.of(teamReq.getMemberId1(), teamReq.getMemberId2(), teamReq.getMemberId3(), leaderId);
+		
+        if (teamMember.size() != 4) {
+            throw new RuntimeException("인원수가 맞지 않습니다.");
+        }
+        
+        Team team = Team.builder()
+        		.name(teamReq.getTeamName())
+        		.build();
+        teamRepository.save(team);
+        
+        teamMember.forEach(memberId -> {
+        	Member member = memberRepository.findById(memberId)
+        			.orElseThrow(() -> new RuntimeException("존재하지 않는 아이디의 멤버입니다."));
+            if (member.getTeam() != null) 
+                throw new RuntimeException("이미 팀이 있는 멤버를 포함합니다.");
+            member.setTeam(team);
+        });
+        
 		return new TeamRes(team);
 	}
 	
