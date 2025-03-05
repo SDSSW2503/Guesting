@@ -19,14 +19,14 @@ public class MemberRes {
 	private Integer memberId;
 	private String name;
 	private String intro;
-	private Integer gender;
+	private String gender;
 	private TeamRes teamRes;
 	
 	public MemberRes(Member member) {
 		memberId = member.getMemberId();
 		name = member.getName();
 		intro = member.getIntro();
-		gender = member.getGender();
+		gender = member.getGender().getKoreanValue();
 		teamRes = new TeamRes(member.getTeam());
 	}
 	
@@ -34,7 +34,7 @@ public class MemberRes {
 		memberId = member.getMemberId();
 		name = member.getName();
 		intro = member.getIntro();
-		gender = member.getGender();
+		gender = member.getGender().getKoreanValue();
 		teamRes = new TeamRes(member.getTeam(), memberList);
 	}
 }

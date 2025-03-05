@@ -1,6 +1,7 @@
 package com.samsung.guesting.dto;
 
 import com.samsung.guesting.entity.Member;
+import com.samsung.guesting.entity.staticField.Gender;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,14 +17,14 @@ public class MemberReq {
 	private String password;
 	private String name;
 	private String intro;
-	private Integer gender;
+	private String gender;
 	
 	public Member toMember() {
 		return Member.builder()
 				.password(password)
 				.name(name)
 				.intro(intro)
-				.gender(gender)
+				.gender(Gender.valueOf(gender))
 				.build();
 				
 	}

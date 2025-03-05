@@ -1,6 +1,10 @@
 package com.samsung.guesting.entity;
 
+import com.samsung.guesting.entity.staticField.Gender;
+import com.samsung.guesting.entity.staticField.GenderConverter;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -34,7 +38,8 @@ public class Member {
 	@Lob
 	private String intro;
 	
-	private Integer gender;
+	@Convert(converter = GenderConverter.class)
+	private Gender gender;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "team_id")
