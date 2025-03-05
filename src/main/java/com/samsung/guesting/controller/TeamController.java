@@ -31,7 +31,7 @@ public class TeamController {
 	//createTeams..팀생성
 	@PostMapping("/teams")
 	public ResponseEntity<?> createTeams(@RequestBody TeamReq teamReq, @SessionAttribute(name = "memberId") Integer memberId){
-		TeamRes teamRes = teamService.addTeam(teamReq);
+		TeamRes teamRes = teamService.addTeam(teamReq, memberId);
 		return new ResponseEntity<>(teamRes, HttpStatus.OK);
 	}
 	
@@ -41,9 +41,8 @@ public class TeamController {
 	public ResponseEntity<?> getNoMatchedTeams() throws Exception{
 		List<TeamRes> teams = teamService.getNoTeams();
 		if(teams.isEmpty())
-			return new ResponseEntity<>(Map.of("message", "매칭이 되지 않은 팀이 없습니다."),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(Map.of("message", "매칭이 되지 않은 팀이 없습니다."),HttpStatus.NO_CONTENT);
 		return new ResponseEntity<>(teams, HttpStatus.OK);
-		
 	}
 	
 }
