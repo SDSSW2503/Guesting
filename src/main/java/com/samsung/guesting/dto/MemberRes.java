@@ -27,7 +27,6 @@ public class MemberRes {
 		name = member.getName();
 		intro = member.getIntro();
 		gender = member.getGender().getKoreanValue();
-		teamRes = new TeamRes(member.getTeam());
 	}
 	
 	public MemberRes(Member member, List<Member> memberList) {

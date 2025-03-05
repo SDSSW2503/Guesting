@@ -16,10 +16,16 @@ public enum Gender {
 	private Integer dbValue;
 	private String koreanValue;
 	private String englishValue;
-
+	
 	public static Gender enumOf(Integer dbValue) {
 		return Arrays.stream(Gender.values())
 				.filter(g -> g.getDbValue().equals(dbValue))
+				.findAny().orElse(null);
+	}
+
+	public static Gender enumOf(String koreanValue) {
+		return Arrays.stream(Gender.values())
+				.filter(g -> g.getKoreanValue().equals(koreanValue))
 				.findAny().orElse(null);
 	}
 }

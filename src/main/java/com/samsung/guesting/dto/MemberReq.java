@@ -24,7 +24,7 @@ public class MemberReq {
 				.password(password)
 				.name(name)
 				.intro(intro)
-				.gender(Gender.valueOf(gender))
+				.gender(Gender.enumOf(gender))
 				.build();
 				
 	}
