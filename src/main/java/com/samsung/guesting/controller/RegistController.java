@@ -1,6 +1,7 @@
 package com.samsung.guesting.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,12 +25,12 @@ public class RegistController {
 	
 	@PostMapping("/guestings")
 	@Operation(summary = "게스팅 신청", description = "신청하고자 하는 teamId(Integer)를 받아, 게스팅을 신청한다.")
-	public ResponseEntity<?> requestGuesting(@RequestBody Integer teamId
+	public ResponseEntity<?> requestGuesting(@RequestBody Map<String, Integer> requestBody
 										   , @SessionAttribute(name = "memberId") Integer memberId
 	) {
-		registService.requestGuesting(memberId, teamId);
-		
-		return ResponseEntity.status(HttpStatus.OK).body(null);
+		registService.requestGuesting(memberId, requestBody.get("teamId"));
+		System.out.println();
+		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	
 	@GetMapping("/receivedRegists")
@@ -50,20 +51,20 @@ public class RegistController {
 	
 	@PutMapping("/regists/accept")
 	@Operation(summary = "받은 신청 수락", description = "수락할 registId(Integer)를 받아, 해당 Regist를 수락하고 다른 신청들은 전부 거절한다.")
-	public ResponseEntity<?> acceptRegist(@RequestBody Integer registId,
+	public ResponseEntity<?> acceptRegist(@RequestBody Map<String, Integer> requestBody,
 										  @SessionAttribute(name = "memberId") Integer memberId
 	) {
-		registService.acceptRegist(registId, memberId);
+		registService.acceptRegist(requestBody.get("registId"), memberId);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 	
 	@PutMapping("/regists/decline")
 	@Operation(summary = "받은 신청 거절", description = "거절할 registId(Integer)를 받아, 해당 Regist를 거절한다.")
-	public ResponseEntity<?> declineRegist(@RequestBody Integer registId,
+	public ResponseEntity<?> declineRegist(@RequestBody Map<String, Integer> requestBody,
 										  @SessionAttribute(name = "memberId") Integer memberId
 	) {
-		registService.declineRegist(registId, memberId);
+		registService.declineRegist(requestBody.get("registId"), memberId);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}

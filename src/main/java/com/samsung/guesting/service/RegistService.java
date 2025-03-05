@@ -77,9 +77,7 @@ public class RegistService {
 	public List<RegistRes> viewReceivedRegistRecords(Integer memberId) {
 		//1) session 에서 나의 팀 아이디를 꺼낸다.
 		Member member = memberRepository.getByMemberId(memberId).orElseThrow(()->new CustomException("잘못된 접근입니다. 다시 로그인 해주세요."));
-		if (Objects.isNull(member)) throw new RuntimeException("다시 로그인 해주세요.");
 		Team curTeam = member.getTeam();
-		
 		if (Objects.isNull(curTeam)) throw new RuntimeException("팀 가입 후 이용해주세요.");
 		//2) DB를 조회해서 나의 팀이 받은 신청을 모두 꺼낸다.
 		List<Regist> registEntities = registRepository.getReceivedRegists(curTeam.getTeamId());
@@ -112,7 +110,6 @@ public class RegistService {
 	@Transactional
 	public void acceptRegist(Integer registId, Integer memberId) throws RuntimeException{
 		Member member = memberRepository.getByMemberId(memberId).orElseThrow(()->new CustomException("잘못된 접근입니다. 다시 로그인 해주세요."));
-		if (Objects.isNull(member)) throw new RuntimeException("다시 로그인 해주세요.");
 		Team curTeam = member.getTeam();
 		
 		if (Objects.isNull(curTeam)) throw new RuntimeException("팀 가입 후 이용해주세요.");
@@ -122,8 +119,14 @@ public class RegistService {
 		
 		if (!Objects.equals(regist.getReceiveTeam().getTeamId(), curTeam.getTeamId()))
 			throw new RuntimeException("자신이 소속된 팀의 게스팅만 수락할 수 있습니다..");
+		//이미 거절된 요청이면 에러 반환
+		if(regist.getStatus().equals(Status.DECLINED)) {
+			throw new CustomException("이미 거절된 요청을 수락할 수 없습니다.");
+		}
+		
 		
 		//수락으로 바꾸기
+		
 		regist.setStatus(Status.ACCEPTED);
 		
 		//내가 받은 요청 모두 불러오기
