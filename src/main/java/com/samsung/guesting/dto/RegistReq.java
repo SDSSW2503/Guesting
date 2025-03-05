@@ -2,6 +2,7 @@ package com.samsung.guesting.dto;
 
 import com.samsung.guesting.entity.Regist;
 import com.samsung.guesting.entity.Team;
+import com.samsung.guesting.entity.staticField.Status;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +23,7 @@ public class RegistReq {
 		return Regist.builder()
 				.sendTeam(Team.builder().teamId(sendTeamId).build())
 				.receiveTeam(Team.builder().teamId(receiveTeamId).build())
-				.status(2)
+				.status(Status.PENDING)
 				.build();
 	}
 }
