@@ -57,18 +57,18 @@ public class RegistService {
 		}
   
   		//fetch all houses, and select one at random
-		House house = houseRepository.findAll()
-		.stream()
-		.skip(new Random().nextInt((int) houseRepository.count()))
-		.findFirst()
-		.orElseThrow(()-> new CustomException("empty house DB"));
+		List<House> houseList = houseRepository.findAll(); 
+		if (houseList.isEmpty()) throw new CustomException("empty house DB");
+		House house = houseList.stream()
+				.skip(new Random().nextInt((int) houseRepository.count()))
+				.findFirst().get();
   
 		Regist regist = Regist.builder()
 				.sendTeam(Team.builder().teamId(curTeam.getTeamId()).build())
 				.receiveTeam(Team.builder().teamId(otherTeamId).build())
 				.regDate(LocalDateTime.now())
 				.status(Status.PENDING)
-        .house(house)
+				.house(house)
 				.build();
 		
 		return registRepository.save(regist);
