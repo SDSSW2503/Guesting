@@ -19,7 +19,7 @@ public class RegistRes {
 	private TeamRes sendTeam;
 	private TeamRes receiveTeam;
 	private LocalDateTime regDate;
-	private Integer status;
+	private String status;
 	private HouseRes house;
 	
 	public RegistRes(Regist regist) {
@@ -28,6 +28,6 @@ public class RegistRes {
 	    this.receiveTeam = new TeamRes(regist.getReceiveTeam());
 	    this.regDate = regist.getRegDate();
 	    this.house = new HouseRes(regist.getHouse());
-	    this.status = regist.getStatus();
+	    this.status = regist.getStatus().getKoreanValue();
 	}
 }

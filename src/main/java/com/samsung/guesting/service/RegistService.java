@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.samsung.guesting.dto.RegistRes;
 import com.samsung.guesting.entity.Regist;
 import com.samsung.guesting.entity.Team;
+import com.samsung.guesting.entity.staticField.Status;
 import com.samsung.guesting.repository.MemberRepository;
 import com.samsung.guesting.repository.RegistRepository;
 
@@ -32,7 +33,7 @@ public class RegistService {
 				.sendTeam(Team.builder().teamId(curTeam.getTeamId()).build())
 				.receiveTeam(Team.builder().teamId(otherTeamId).build())
 				.regDate(LocalDateTime.now())
-				.status(2)
+				.status(Status.PENDING)
 				.build();
 		
 		return registRepository.save(regist);
@@ -85,11 +86,11 @@ public class RegistService {
 			throw new RuntimeException("자신이 소속된 팀의 게스팅만 수락할 수 있습니다..");
 		
 		//수락으로 바꾸기
-		regist.setStatus(0);
+		regist.setStatus(Status.ACCEPTED);
 		
 		//내가 받은 요청 모두 불러오기
 		registRepository.getReceivedRegists(curTeam.getTeamId())
-				.stream().filter(r->!regist.getRegistId().equals(r.getRegistId())).forEach(r->r.setStatus(1));
+				.stream().filter(r->!regist.getRegistId().equals(r.getRegistId())).forEach(r->r.setStatus(Status.DECLINED));
 				
 		//내가 보낸 요청 모두 삭제하기
 		List<Regist> sentRegistList =  registRepository.getSentRegists(curTeam.getTeamId());
@@ -112,7 +113,7 @@ public class RegistService {
 			throw new RuntimeException("자신이 소속된 팀의 게스팅만 거절할 수 있습니다..");
 		
 		//거절로 바꾸기
-		regist.setStatus(1);
+		regist.setStatus(Status.DECLINED);
 	}
 	 
 	 
