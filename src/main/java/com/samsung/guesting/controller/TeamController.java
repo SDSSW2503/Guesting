@@ -19,6 +19,7 @@ import com.samsung.guesting.entity.Member;
 import com.samsung.guesting.entity.Team;
 import com.samsung.guesting.service.TeamService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 
 @CrossOrigin(origins = {"*"}, maxAge = 6000)
@@ -28,16 +29,16 @@ public class TeamController {
 	
 	final TeamService teamService;
 	
-	//createTeams..팀생성
 	@PostMapping("/teams")
+	@Operation(summary = "팀 생성", description = "teamName(String), memberId1(Integer), memberId2(Integer), memberId3(Integer)를 받아, 팀을 생성한다.")
 	public ResponseEntity<?> createTeams(@RequestBody TeamReq teamReq, @SessionAttribute(name = "memberId") Integer memberId){
 		TeamRes teamRes = teamService.addTeam(teamReq, memberId);
 		return new ResponseEntity<>(teamRes, HttpStatus.OK);
 	}
 	
 	
-	//showTeams .. 매칭안된팀 조회
 	@GetMapping("/teams")
+	@Operation(summary = "매칭 안된 팀 조회", description = "매칭 안된 팀 목록을 리스트로 조회한다.")
 	public ResponseEntity<?> getNoMatchedTeams() throws Exception{
 		List<TeamRes> teams = teamService.getNoTeams();
 		if(teams.isEmpty())
