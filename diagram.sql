@@ -17,22 +17,23 @@ INSERT INTO `sds`.`team` (`name`) VALUES
 -- Insert sample data into `member`
 INSERT INTO `sds`.`member` (`gender`, `intro`, `name`, `password`, `team_id`) VALUES
 (1, 'I love coding and problem-solving.', 'John Doe', 'securepass1', 1),
-(0, 'Data science enthusiast.', 'Jane Smith', 'securepass2', 2),
-(1, 'Cloud computing specialist.', 'David Kim', 'securepass3', 3),
-(0, 'Machine learning researcher.', 'Emily Park', 'securepass4', 4),
-(1, 'Cybersecurity expert.', 'Michael Lee', 'securepass5', 5),
-(0, 'Software engineer with a passion for AI.', 'Sophia Choi', 'securepass6', 1),
+(0, 'Data science enthusiast.', 'Jane Smith', 'securepass2', 1),
+(1, 'Cloud computing specialist.', 'David Kim', 'securepass3', 1),
+(0, 'Machine learning researcher.', 'Emily Park', 'securepass4', 1),
+(1, 'Cybersecurity expert.', 'Michael Lee', 'securepass5', 2),
+(0, 'Software engineer with a passion for AI.', 'Sophia Choi', 'securepass6', null),
 (1, 'Database administrator with 5 years of experience.', 'Daniel Kang', 'securepass7', 2),
-(0, 'Frontend developer who loves UX/UI.', 'Hannah Lee', 'securepass8', 3),
-(1, 'DevOps engineer working with cloud technologies.', 'Chris Jung', 'securepass9', 4),
-(0, 'Backend engineer with strong Java experience.', 'Jessica Han', 'securepass10', 5);
+(0, 'Frontend developer who loves UX/UI.', 'Hannah Lee', 'securepass8', 2),
+(1, 'DevOps engineer working with cloud technologies.', 'Chris Jung', 'securepass9', 2),
+(0, 'Backend engineer with strong Java experience.', 'Jessica Han', 'securepass10', null);
 
 -- Insert sample data into `regist`
 INSERT INTO `sds`.`regist` (`reg_date`, `status`, `house_id`, `receive_team_id`, `send_team_id`) VALUES
 (NOW(), 1, 2, 2, 1),
-(NOW(), 1, 2, 4, 2),
-(NOW(), 1, 2, 1, 4),
-(NOW(), 2, 2, 1, 5);
+(NOW(), 1, 2, 1, 2),
+(NOW(), 1, 2, 2, 1),
+(NOW(), 2, 2, 1, 2);
+
 
 
 
