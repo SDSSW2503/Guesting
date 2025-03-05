@@ -10,8 +10,10 @@ import com.samsung.guesting.dto.RegistReq;
 import com.samsung.guesting.dto.RegistRes;
 import com.samsung.guesting.entity.Regist;
 import com.samsung.guesting.entity.Team;
+import com.samsung.guesting.exception.CustomException;
 import com.samsung.guesting.repository.MemberRepository;
 import com.samsung.guesting.repository.RegistRepository;
+import com.samsung.guesting.repository.TeamRepository;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -22,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class RegistService {
 	private final RegistRepository registRepository;
 	private final MemberRepository memberRepository;
+	private final TeamRepository teamRepository;
 	private final HttpSession session;
 	
 	//1. 게스팅 신청 : 상대 팀 아이디를 받아서 게스팅을 신청한다.
@@ -29,7 +32,22 @@ public class RegistService {
 		registReq.setSendTeamId(curTeamId); 
 		
 		//TODO : Add error checking mechanism (cannot request to more than one team)
-		
+		//팀이 존재하는지
+		if(teamRepository.findById(registReq.getReceiveTeamId()).isEmpty()) {
+			throw new CustomException("존재하지 않는 팀입니다.");
+		}
+		//내가 이미 매칭이 된 상태인지
+		if(registRepository.getMatchedTeam(curTeamId).isPresent()) {
+			throw new CustomException("이미 팀의 매칭이 완료된 상태입니다.");
+		}
+		//이미 다른 곳에 요청을 보낸 상태인지
+		if(!registRepository.getSentRegists(curTeamId).isEmpty()) {
+			throw new CustomException("이미 보낸 매칭 신청이 존재합니다.");
+		}
+		//상대 팀이 이미 매칭이 된 상태인지
+		if(registRepository.getMatchedTeam(registReq.getReceiveTeamId()).isPresent()) {
+			throw new CustomException("이미 매칭이 완료된 팀입니다.");
+		}
 		return registRepository.save(registReq.toRegist());
 	}
 	 
@@ -69,7 +87,7 @@ public class RegistService {
 		//수락으로 바꾸기
 		regist.setStatus(0);
 		
-		//내가 받은 요청 모두 불러오기
+		//내가 받은 요청 모두 불러오기 후 거절
 		registRepository.getReceivedRegists(curTeamId)
 				.stream().filter(r->!regist.getRegistId().equals(r.getRegistId())).forEach(r->r.setStatus(1));
 				
@@ -84,7 +102,7 @@ public class RegistService {
 	@Transactional
 	public void declineRegist(RegistReq registReq, Integer curTeamId) throws RuntimeException{
 		Regist receivedRegist = registRepository.findById(registReq.getSendTeamId())
-				.orElseThrow(()->new RuntimeException("찾을 수 없는 요청입니다."));
+				.orElseThrow(()->new CustomException("찾을 수 없는 요청입니다."));
 		//거절로 바꾸기
 		receivedRegist.setStatus(1);
 	}
