@@ -1,6 +1,8 @@
 package com.samsung.guesting.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,16 +38,20 @@ public class RegistController {
 	@Operation(summary = "내가 받은 신청 현황 조회", description = "내가 받은 신청 현황을 리스트로 조회한다.")
 	public ResponseEntity<?> viewReceivedRegistRecords(@SessionAttribute(name = "memberId") Integer memberId) {
 		List<RegistRes> registResList = registService.viewReceivedRegistRecords(memberId);
+		Map<String, Object> response = new HashMap<>();
+		response.put("data", registResList);
 		
-		return ResponseEntity.status(HttpStatus.OK).body(registResList);
+		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 	
 	@GetMapping("/sentRegists")
 	@Operation(summary = "내가 보낸 신청 현황 조회", description = "내가 보낸 신청 현황을 리스트로 조회한다.")
 	public ResponseEntity<?> viewSentRegistRecords(@SessionAttribute(name = "memberId") Integer memberId) {
 		List<RegistRes> registResList = registService.viewSentRegistRecords(memberId);
+		Map<String, Object> response = new HashMap<>();
+		response.put("data", registResList);
 		
-		return ResponseEntity.status(HttpStatus.OK).body(registResList);
+		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 	
 	@PutMapping("/regists/accept")
@@ -72,8 +78,10 @@ public class RegistController {
 	@Operation(summary = "내 매칭 조회", description = "현재 매칭된 정보를 조회한다.")
 	public ResponseEntity<?> getMyMatching(@SessionAttribute(name = "memberId") Integer memberId) {
 		RegistRes registRes = registService.getMyMatching(memberId);
+		Map<String, Object> response = new HashMap<>();
+		response.put("data", registRes);
 		
-		return ResponseEntity.status(HttpStatus.OK).body(registRes);
+		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 	
 
