@@ -244,7 +244,7 @@ API 명세서
 			"name" : "alex",
 			"intro" : "hello my name is ",
 			"gender" : "male" / "female"	,
-			"sendTeam" : {
+			"Team" : {
 				"teamId" : 1
 				"name" : "teamgogo"
 				"memberResList" : [ 
