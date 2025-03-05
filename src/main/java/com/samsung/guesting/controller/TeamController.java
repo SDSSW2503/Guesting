@@ -1,5 +1,6 @@
 package com.samsung.guesting.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +34,9 @@ public class TeamController {
 	@Operation(summary = "팀 생성", description = "teamName(String), memberId1(Integer), memberId2(Integer), memberId3(Integer)를 받아, 팀을 생성한다.")
 	public ResponseEntity<?> createTeams(@RequestBody TeamReq teamReq, @SessionAttribute(name = "memberId") Integer memberId){
 		TeamRes teamRes = teamService.addTeam(teamReq, memberId);
-		return new ResponseEntity<>(teamRes, HttpStatus.OK);
+		Map<String, Object> response = new HashMap<>();
+		response.put("data", teamRes);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 	
@@ -43,7 +46,9 @@ public class TeamController {
 		List<TeamRes> teams = teamService.getNoTeams();
 		if(teams.isEmpty())
 			return new ResponseEntity<>(Map.of("message", "매칭이 되지 않은 팀이 없습니다."),HttpStatus.NO_CONTENT);
-		return new ResponseEntity<>(teams, HttpStatus.OK);
+		Map<String, Object> response = new HashMap<>();
+		response.put("data", teams);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 }

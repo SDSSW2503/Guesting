@@ -30,8 +30,10 @@ public class MemberController {
 	@Operation(summary = "회원가입", description = "password(String), name(String), intro(String), gender(여성 or 남성)를 받아, 회원가입한다.")
 	public ResponseEntity<?> signUp(@RequestBody MemberReq memberReq) {
 		MemberRes memberRes = memberService.signUp(memberReq);
+		Map<String, Object> response = new HashMap<>();
+		response.put("data", memberRes);
 		
-		return ResponseEntity.status(HttpStatus.OK).body(memberRes);
+		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 	
 	@PostMapping("/login")
