@@ -2,20 +2,20 @@ package com.samsung.guesting.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Random;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 import java.util.Objects;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.samsung.guesting.dto.RegistRes;
 import com.samsung.guesting.entity.House;
+import com.samsung.guesting.entity.Member;
 import com.samsung.guesting.entity.Regist;
 import com.samsung.guesting.entity.Team;
+import com.samsung.guesting.entity.staticField.Status;
 import com.samsung.guesting.exception.CustomException;
 import com.samsung.guesting.repository.HouseRepository;
-import com.samsung.guesting.entity.staticField.Status;
 import com.samsung.guesting.repository.MemberRepository;
 import com.samsung.guesting.repository.RegistRepository;
 import com.samsung.guesting.repository.TeamRepository;
@@ -33,8 +33,10 @@ public class RegistService {
 	
 	//1. 게스팅 신청 : 상대 팀 아이디를 받아서 게스팅을 신청한다.
 	public Regist requestGuesting(Integer memberId, Integer otherTeamId) {
-		Team curTeam = memberRepository.findByMemberId(memberId)
-				.orElseThrow(() -> new RuntimeException("다시 로그인 해주세요.")).getTeam();
+		Member member = memberRepository.getByMemberId(memberId);
+		if (Objects.isNull(member)) throw new RuntimeException("다시 로그인 해주세요.");
+		Team curTeam = member.getTeam();
+		
 		if (Objects.isNull(curTeam)) throw new RuntimeException("팀 가입 후 이용해주세요.");
 				
 		//팀이 존재하는지
@@ -75,8 +77,10 @@ public class RegistService {
 	//2. 신청 현황 조회 : 나의 팀이 받은 신청을 조회한다.
 	public List<RegistRes> viewReceivedRegistRecords(Integer memberId) {
 		//1) session 에서 나의 팀 아이디를 꺼낸다.
-		Team curTeam = memberRepository.findByMemberId(memberId)
-				.orElseThrow(() -> new RuntimeException("다시 로그인 해주세요.")).getTeam();
+		Member member = memberRepository.getByMemberId(memberId);
+		if (Objects.isNull(member)) throw new RuntimeException("다시 로그인 해주세요.");
+		Team curTeam = member.getTeam();
+		
 		if (Objects.isNull(curTeam)) throw new RuntimeException("팀 가입 후 이용해주세요.");
 		//2) DB를 조회해서 나의 팀이 받은 신청을 모두 꺼낸다.
 		List<Regist> registEntities = registRepository.getReceivedRegists(curTeam.getTeamId());
@@ -90,8 +94,10 @@ public class RegistService {
 	//2.5. 신청 현황 조회 : 나의 팀이 보낸 신청을 조회한다.
 	public List<RegistRes> viewSentRegistRecords(Integer memberId) {
 		//1) session 에서 나의 팀 아이디를 꺼낸다.
-		Team curTeam = memberRepository.findByMemberId(memberId)
-				.orElseThrow(() -> new RuntimeException("다시 로그인 해주세요.")).getTeam();
+		Member member = memberRepository.getByMemberId(memberId);
+		if (Objects.isNull(member)) throw new RuntimeException("다시 로그인 해주세요.");
+		Team curTeam = member.getTeam();
+		
 		if (Objects.isNull(curTeam)) throw new RuntimeException("팀 가입 후 이용해주세요.");
 
 	  //2) DB를 조회해서 나의 팀이 받은 신청을 모두 꺼낸다.
@@ -106,8 +112,10 @@ public class RegistService {
 	//3. 내가 받은 신청 중 하나를 수락한다.
 	@Transactional
 	public void acceptRegist(Integer registId, Integer memberId) throws RuntimeException{
-		Team curTeam = memberRepository.findByMemberId(memberId)
-				.orElseThrow(() -> new RuntimeException("다시 로그인 해주세요.")).getTeam();
+		Member member = memberRepository.getByMemberId(memberId);
+		if (Objects.isNull(member)) throw new RuntimeException("다시 로그인 해주세요.");
+		Team curTeam = member.getTeam();
+		
 		if (Objects.isNull(curTeam)) throw new RuntimeException("팀 가입 후 이용해주세요.");
 
 		Regist regist = registRepository.findById(registId)
@@ -133,8 +141,10 @@ public class RegistService {
 	 //4. 내가 받은 신청 중 하나를 거절한다.
 	@Transactional
 	public void declineRegist(Integer registId, Integer memberId) throws RuntimeException{
-		Team curTeam = memberRepository.findByMemberId(memberId)
-				.orElseThrow(() -> new RuntimeException("다시 로그인 해주세요.")).getTeam();
+		Member member = memberRepository.getByMemberId(memberId);
+		if (Objects.isNull(member)) throw new RuntimeException("다시 로그인 해주세요.");
+		Team curTeam = member.getTeam();
+		
 		if (Objects.isNull(curTeam)) throw new RuntimeException("팀 가입 후 이용해주세요.");
 		
 		Regist regist = registRepository.findById(registId)
@@ -150,8 +160,10 @@ public class RegistService {
 	 
 	 //5. 성사된 매칭을 조회한다.
 	public RegistRes getMyMatching (Integer memberId) throws RuntimeException{
-		Team curTeam = memberRepository.findByMemberId(memberId)
-				.orElseThrow(() -> new RuntimeException("다시 로그인 해주세요.")).getTeam();
+		Member member = memberRepository.getByMemberId(memberId);
+		if (Objects.isNull(member)) throw new RuntimeException("다시 로그인 해주세요.");
+		Team curTeam = member.getTeam();
+		
 		if (Objects.isNull(curTeam)) throw new RuntimeException("팀 가입 후 이용해주세요.");
 		
 		//내 팀 아이디를 이용해 성사된 매칭을 조회한다.

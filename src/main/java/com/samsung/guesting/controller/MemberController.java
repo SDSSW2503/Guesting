@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,11 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.samsung.guesting.dto.LoginReq;
 import com.samsung.guesting.dto.MemberReq;
 import com.samsung.guesting.dto.MemberRes;
 import com.samsung.guesting.service.MemberService;
-import com.samsung.guesting.service.RegistService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -33,8 +33,12 @@ public class MemberController {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody Integer id, String password ){
-		MemberRes memberRes = memberService.signIn(id, password);
+	public ResponseEntity<?> login(@RequestBody LoginReq loginReq, 
+								   HttpSession session) {
+		MemberRes memberRes = memberService.signIn(loginReq.getId(), loginReq.getPassword());
+		
+		session.setAttribute("memberId", memberRes.getMemberId());
+		
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	
