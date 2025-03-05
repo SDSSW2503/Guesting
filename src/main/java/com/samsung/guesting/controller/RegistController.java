@@ -40,7 +40,7 @@ public class RegistController {
 	}
 	
 	// 내가 보낸 신청 현황 조회
-	@GetMapping("/receivedRegists")
+	@GetMapping("/sentRegists")
 	public ResponseEntity<?> viewSentRegistRecords(@SessionAttribute(name = "memberId") Integer memberId) {
 		List<RegistRes> registResList = registService.viewSentRegistRecords(memberId);
 		
