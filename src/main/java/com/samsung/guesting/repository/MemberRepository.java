@@ -20,7 +20,7 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 	
 	// 멤버아이디로 멤버 찾아오는 메서드
 	@Query(value = "SELECT m FROM Member m WHERE m.memberId = :memberId")
-	Member getByMemberId(@Param("memberId") Integer memberId);
+	Optional<Member> getByMemberId(@Param("memberId") Integer memberId);
 
 	// 팀아이디로 해당 팀에 속한 멤버 정보 가져오는 메서드
 	@Query(value = "SELECT m FROM Member m JOIN FETCH m.team WHERE m.team.teamId = :teamId")

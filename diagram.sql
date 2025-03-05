@@ -36,3 +36,4 @@ INSERT INTO `sds`.`regist` (`reg_date`, `status`, `house_id`, `receive_team_id`,
 
 
 
+

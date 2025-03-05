@@ -41,6 +41,7 @@ public class MemberController {
 		MemberRes memberRes = memberService.signIn(loginReq.getId(), loginReq.getPassword());
 		
 		session.setAttribute("memberId", memberRes.getMemberId());
+		System.out.println("JSESSIONID :"+session.getId());
 		
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}

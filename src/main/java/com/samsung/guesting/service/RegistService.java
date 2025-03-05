@@ -33,8 +33,7 @@ public class RegistService {
 	
 	//1. 게스팅 신청 : 상대 팀 아이디를 받아서 게스팅을 신청한다.
 	public Regist requestGuesting(Integer memberId, Integer otherTeamId) {
-		Member member = memberRepository.getByMemberId(memberId);
-		if (Objects.isNull(member)) throw new RuntimeException("다시 로그인 해주세요.");
+		Member member = memberRepository.getByMemberId(memberId).orElseThrow(()->new CustomException("잘못된 접근입니다. 다시 로그인 해주세요."));
 		Team curTeam = member.getTeam();
 		
 		if (Objects.isNull(curTeam)) throw new RuntimeException("팀 가입 후 이용해주세요.");
@@ -77,7 +76,7 @@ public class RegistService {
 	//2. 신청 현황 조회 : 나의 팀이 받은 신청을 조회한다.
 	public List<RegistRes> viewReceivedRegistRecords(Integer memberId) {
 		//1) session 에서 나의 팀 아이디를 꺼낸다.
-		Member member = memberRepository.getByMemberId(memberId);
+		Member member = memberRepository.getByMemberId(memberId).orElseThrow(()->new CustomException("잘못된 접근입니다. 다시 로그인 해주세요."));
 		if (Objects.isNull(member)) throw new RuntimeException("다시 로그인 해주세요.");
 		Team curTeam = member.getTeam();
 		
@@ -94,7 +93,7 @@ public class RegistService {
 	//2.5. 신청 현황 조회 : 나의 팀이 보낸 신청을 조회한다.
 	public List<RegistRes> viewSentRegistRecords(Integer memberId) {
 		//1) session 에서 나의 팀 아이디를 꺼낸다.
-		Member member = memberRepository.getByMemberId(memberId);
+		Member member = memberRepository.getByMemberId(memberId).orElseThrow(()->new CustomException("잘못된 접근입니다. 다시 로그인 해주세요."));
 		if (Objects.isNull(member)) throw new RuntimeException("다시 로그인 해주세요.");
 		Team curTeam = member.getTeam();
 		
@@ -112,7 +111,7 @@ public class RegistService {
 	//3. 내가 받은 신청 중 하나를 수락한다.
 	@Transactional
 	public void acceptRegist(Integer registId, Integer memberId) throws RuntimeException{
-		Member member = memberRepository.getByMemberId(memberId);
+		Member member = memberRepository.getByMemberId(memberId).orElseThrow(()->new CustomException("잘못된 접근입니다. 다시 로그인 해주세요."));
 		if (Objects.isNull(member)) throw new RuntimeException("다시 로그인 해주세요.");
 		Team curTeam = member.getTeam();
 		
@@ -141,7 +140,7 @@ public class RegistService {
 	 //4. 내가 받은 신청 중 하나를 거절한다.
 	@Transactional
 	public void declineRegist(Integer registId, Integer memberId) throws RuntimeException{
-		Member member = memberRepository.getByMemberId(memberId);
+		Member member = memberRepository.getByMemberId(memberId).orElseThrow(()->new CustomException("잘못된 접근입니다. 다시 로그인 해주세요."));
 		if (Objects.isNull(member)) throw new RuntimeException("다시 로그인 해주세요.");
 		Team curTeam = member.getTeam();
 		
@@ -160,7 +159,7 @@ public class RegistService {
 	 
 	 //5. 성사된 매칭을 조회한다.
 	public RegistRes getMyMatching (Integer memberId) throws RuntimeException{
-		Member member = memberRepository.getByMemberId(memberId);
+		Member member = memberRepository.getByMemberId(memberId).orElseThrow(()->new CustomException("잘못된 접근입니다. 다시 로그인 해주세요."));
 		if (Objects.isNull(member)) throw new RuntimeException("다시 로그인 해주세요.");
 		Team curTeam = member.getTeam();
 		
